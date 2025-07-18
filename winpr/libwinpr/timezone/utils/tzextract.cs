@@ -133,7 +133,12 @@ internal class Program
 		string fpath = Path.Combine(path, fname + ".c");
 
 		XmlDocument doc = new XmlDocument();
-		doc.Load(url);
+		XmlReaderSettings settings = new XmlReaderSettings();
+		settings.DtdProcessing = DtdProcessing.Ignore;
+		using (XmlReader reader = XmlReader.Create(url, settings))
+		{
+			doc.Load(reader);
+		}
 
 		stdout.WriteLine("Downloaded and parsed XML from '" + url + "'");
 
